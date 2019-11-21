@@ -34,7 +34,7 @@ type AuthnRequest struct {
 	IsPassive                      *bool  `xml:",attr"`
 	AssertionConsumerServiceIndex  string `xml:",attr"`
 	AssertionConsumerServiceURL    string `xml:",attr"`
-	ProtocolBinding                BindingMethod `xml:",attr"`
+	ProtocolBinding                string `xml:",attr"`
 	AttributeConsumingServiceIndex string `xml:",attr"`
 	ProviderName                   string `xml:",attr"`
 }
@@ -157,7 +157,7 @@ func (r *AuthnRequest) Element() *etree.Element {
 		el.CreateAttr("AssertionConsumerServiceURL", r.AssertionConsumerServiceURL)
 	}
 	if r.ProtocolBinding != "" {
-		el.CreateAttr("ProtocolBinding", r.ProtocolBinding.ToString())
+		el.CreateAttr("ProtocolBinding", r.ProtocolBinding)
 	}
 	if r.AttributeConsumingServiceIndex != "" {
 		el.CreateAttr("AttributeConsumingServiceIndex", r.AttributeConsumingServiceIndex)

@@ -7,17 +7,12 @@ import (
 	"github.com/beevik/etree"
 )
 
-type BindingMethod string
 
 // HTTPPostBinding is the official URN for the HTTP-POST binding (transport)
-const HTTPPostBinding = BindingMethod("urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST")
+const HTTPPostBinding = "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST"
 
 // HTTPRedirectBinding is the official URN for the HTTP-Redirect binding (transport)
-const HTTPRedirectBinding = BindingMethod("urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect")
-
-func (bm BindingMethod) ToString() string {
-	return string(bm)
-}
+const HTTPRedirectBinding = "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"
 
 // EntitiesDescriptor represents the SAML object of the same name.
 //
@@ -173,7 +168,7 @@ type KeyInfo struct {
 //
 // See http://docs.oasis-open.org/security/saml/v2.0/saml-metadata-2.0-os.pdf §2.2.2
 type Endpoint struct {
-	Binding          BindingMethod `xml:"Binding,attr"`
+	Binding          string `xml:"Binding,attr"`
 	Location         string        `xml:"Location,attr"`
 	ResponseLocation string        `xml:"ResponseLocation,attr,omitempty"`
 }
@@ -182,7 +177,7 @@ type Endpoint struct {
 //
 // See http://docs.oasis-open.org/security/saml/v2.0/saml-metadata-2.0-os.pdf §2.2.3
 type IndexedEndpoint struct {
-	Binding          BindingMethod `xml:"Binding,attr"`
+	Binding          string `xml:"Binding,attr"`
 	Location         string        `xml:"Location,attr"`
 	ResponseLocation *string       `xml:"ResponseLocation,attr,omitempty"`
 	Index            int           `xml:"index,attr"`
