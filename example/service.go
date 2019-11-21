@@ -121,6 +121,9 @@ func main() {
 
 	idpMetadata, err := samlsp.FetchMetadata(context.Background(), http.DefaultClient,
 		*idpMetadataURL)
+	if err != nil {
+		panic(err) // TODO handler error
+	}
 
 	rootURL, err := url.Parse(*rootURLstr)
 	if err != nil {

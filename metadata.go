@@ -7,11 +7,17 @@ import (
 	"github.com/beevik/etree"
 )
 
+type BindingMethod string
+
 // HTTPPostBinding is the official URN for the HTTP-POST binding (transport)
-var HTTPPostBinding = "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST"
+const HTTPPostBinding = BindingMethod("urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST")
 
 // HTTPRedirectBinding is the official URN for the HTTP-Redirect binding (transport)
-var HTTPRedirectBinding = "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"
+const HTTPRedirectBinding = BindingMethod("urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect")
+
+func (bm BindingMethod) ToString() string {
+	return string(bm)
+}
 
 // EntitiesDescriptor represents the SAML object of the same name.
 //
@@ -167,20 +173,20 @@ type KeyInfo struct {
 //
 // See http://docs.oasis-open.org/security/saml/v2.0/saml-metadata-2.0-os.pdf §2.2.2
 type Endpoint struct {
-	Binding          string `xml:"Binding,attr"`
-	Location         string `xml:"Location,attr"`
-	ResponseLocation string `xml:"ResponseLocation,attr,omitempty"`
+	Binding          BindingMethod `xml:"Binding,attr"`
+	Location         string        `xml:"Location,attr"`
+	ResponseLocation string        `xml:"ResponseLocation,attr,omitempty"`
 }
 
 // IndexedEndpoint represents the SAML IndexedEndpointType object.
 //
 // See http://docs.oasis-open.org/security/saml/v2.0/saml-metadata-2.0-os.pdf §2.2.3
 type IndexedEndpoint struct {
-	Binding          string  `xml:"Binding,attr"`
-	Location         string  `xml:"Location,attr"`
-	ResponseLocation *string `xml:"ResponseLocation,attr,omitempty"`
-	Index            int     `xml:"index,attr"`
-	IsDefault        *bool   `xml:"isDefault,attr"`
+	Binding          BindingMethod `xml:"Binding,attr"`
+	Location         string        `xml:"Location,attr"`
+	ResponseLocation *string       `xml:"ResponseLocation,attr,omitempty"`
+	Index            int           `xml:"index,attr"`
+	IsDefault        *bool         `xml:"isDefault,attr"`
 }
 
 // SSODescriptor represents the SAML complex type SSODescriptor

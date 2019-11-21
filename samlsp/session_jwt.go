@@ -2,10 +2,10 @@ package samlsp
 
 import (
 	"crypto/rsa"
-	"fmt"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
+	"github.com/pkg/errors"
 
 	"github.com/crewjam/saml"
 )
@@ -88,13 +88,13 @@ func (c JWTSessionCodec) Decode(signed string) (Session, error) {
 		return nil, err
 	}
 	if !claims.VerifyAudience(c.Audience, true) {
-		return nil, fmt.Errorf("expected audience %q, got %q", c.Audience, claims.Audience)
+		return nil, errors.Errorf("expected audience %q, got %q", c.Audience, claims.Audience)
 	}
 	if !claims.VerifyIssuer(c.Issuer, true) {
-		return nil, fmt.Errorf("expected issuer %q, got %q", c.Issuer, claims.Issuer)
+		return nil, errors.Errorf("expected issuer %q, got %q", c.Issuer, claims.Issuer)
 	}
 	if claims.SAMLSession != true {
-		return nil, fmt.Errorf("expected saml-session")
+		return nil, errors.New("expected saml-session")
 	}
 	return claims, nil
 }
@@ -122,9 +122,8 @@ func (a Attributes) Get(key string) string {
 	if a == nil {
 		return ""
 	}
-	v := a[key]
-	if len(v) == 0 {
-		return ""
+	if v, ok := a[key]; ok {
+		return v[0]
 	}
-	return v[0]
+	return ""
 }

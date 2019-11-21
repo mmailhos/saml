@@ -210,7 +210,7 @@ func (req *AuthnRequest) Redirect(relayState string) *url.URL {
 
 // GetSSOBindingLocation returns URL for the IDP's Single Sign On Service binding
 // of the specified type (HTTPRedirectBinding or HTTPPostBinding)
-func (sp *ServiceProvider) GetSSOBindingLocation(binding string) string {
+func (sp *ServiceProvider) GetSSOBindingLocation(binding BindingMethod) string {
 	for _, idpSSODescriptor := range sp.IDPMetadata.IDPSSODescriptors {
 		for _, singleSignOnService := range idpSSODescriptor.SingleSignOnServices {
 			if singleSignOnService.Binding == binding {
@@ -223,7 +223,7 @@ func (sp *ServiceProvider) GetSSOBindingLocation(binding string) string {
 
 // GetSLOBindingLocation returns URL for the IDP's Single Log Out Service binding
 // of the specified type (HTTPRedirectBinding or HTTPPostBinding)
-func (sp *ServiceProvider) GetSLOBindingLocation(binding string) string {
+func (sp *ServiceProvider) GetSLOBindingLocation(binding BindingMethod) string {
 	for _, idpSSODescriptor := range sp.IDPMetadata.IDPSSODescriptors {
 		for _, singleLogoutService := range idpSSODescriptor.SingleLogoutServices {
 			if singleLogoutService.Binding == binding {
