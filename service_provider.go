@@ -377,40 +377,6 @@ func (req *AuthnRequest) Post(relayState string) []byte {
 	return rv.Bytes()
 }
 
-// Post returns an HTML form suitable for using the HTTP-POST binding with the LogoutRequest request
-func (r *LogoutRequest) Post(relayState string) []byte {
-	reqBuf, err := r.Bytes()
-	if err != nil {
-		panic(err)
-	}
-	encodedReqBuf := base64.StdEncoding.EncodeToString(reqBuf)
-
-	tmpl := template.Must(template.New("saml-post-form").Parse(`` +
-		`<form method="post" action="{{.URL}}" id="SAMLRequestForm">` +
-		`<input type="hidden" name="SAMLRequest" value="{{.SAMLRequest}}" />` +
-		`<input type="hidden" name="RelayState" value="{{.RelayState}}" />` +
-		`<input id="SAMLSubmitButton" type="submit" value="Submit" />` +
-		`</form>` +
-		`<script>document.getElementById('SAMLSubmitButton').style.visibility="hidden";` +
-		`document.getElementById('SAMLRequestForm').submit();</script>`))
-	data := struct {
-		URL         string
-		SAMLRequest string
-		RelayState  string
-	}{
-		URL:         r.Destination,
-		SAMLRequest: encodedReqBuf,
-		RelayState:  relayState,
-	}
-
-	rv := bytes.Buffer{}
-	if err := tmpl.Execute(&rv, data); err != nil {
-		panic(err)
-	}
-
-	return rv.Bytes()
-}
-
 // AssertionAttributes is a list of AssertionAttribute
 type AssertionAttributes []AssertionAttribute
 
